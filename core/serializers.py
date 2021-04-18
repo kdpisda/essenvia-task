@@ -13,3 +13,8 @@ class LoginRequest(serializers.Serializer):
 
 class DataSubmitRequest(serializers.Serializer):
     data = serializers.JSONField(required=True, allow_null=False)
+
+class UserResponse(serializers.ModelSerializer):
+    class Meta:
+        fields = ['first_name', 'last_name', 'is_active', 'email']
+        model = User
