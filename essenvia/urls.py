@@ -14,8 +14,21 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.urls import path
+from rest_framework_simplejwt.views import (
+    TokenRefreshView,
+)
+
+from core import views as core_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('auth/login/', core_views.login),
 ]
+
+urlpatterns += staticfiles_urlpatterns()
+
+admin.site.site_header = "Essenvia Admin"
+admin.site.site_title = "Essenvia Admin Portal"
+admin.site.index_title = "Welcome to Essenvia Portal"
