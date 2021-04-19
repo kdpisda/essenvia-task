@@ -65,3 +65,13 @@ def submit_data(request):
 
     res['data'] = core_serializers.DataQuickResponse(data).data
     return JsonResponse(res, status=res_status)
+
+@decorators.api_view(["GET"])
+def get_data(request, pk):
+    res = {}
+    res_status = status.HTTP_200_OK
+    
+    data = core_models.Data.objects.get(pk=pk)
+
+    res['data'] = core_serializers.DataQuickResponse(data).data
+    return JsonResponse(res, status=res_status)

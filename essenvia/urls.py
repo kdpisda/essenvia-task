@@ -26,6 +26,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('auth/login/', core_views.login),
     path('data/', core_views.submit_data),
+    path('data/<int:pk>/', core_views.get_data),
 ]
 
 urlpatterns += staticfiles_urlpatterns()
