@@ -25,6 +25,7 @@ from core import views as core_views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('auth/login/', core_views.login),
+    path('data/', core_views.submit_data),
 ]
 
 urlpatterns += staticfiles_urlpatterns()

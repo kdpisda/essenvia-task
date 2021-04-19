@@ -10,6 +10,6 @@ logger = get_task_logger(__name__)
 
 @receiver(post_save, sender=core_models.Data)
 def single_to_create_pdf_of_the_data(sender, instance, **kwargs):
-    if not instance.status == "INIT":
+    if instance.status == "INIT":
         core_tasks.generate_pdf.delay(instance.pk)
         

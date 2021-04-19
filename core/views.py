@@ -11,6 +11,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 import base64
 import jwt
+import json
 
 # Create your views here.
 
@@ -43,4 +44,24 @@ def login(request, *args, **kwargs):
                 "password": ["The provided credentials are wrong"]}
             res_status = status.HTTP_401_UNAUTHORIZED
 
+    return JsonResponse(res, status=res_status)
+
+@csrf_exempt
+@decorators.api_view(["POST"])
+def submit_data(request):
+    res = {}
+    res_status = status.HTTP_201_CREATED
+
+    user = request.user
+
+    image_file = request.FILES['file']
+    req_data = request.POST.get('data')
+
+    data = core_models.Data()
+    data.user_id = user.pk
+    data.data = json.loads(req_data)
+    data.image = image_file
+    data.save()
+
+    res['data'] = core_serializers.DataQuickResponse(data).data
     return JsonResponse(res, status=res_status)
