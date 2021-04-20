@@ -6,7 +6,6 @@ import base64
 from django.template.loader import get_template
 from datetime import datetime
 from django.conf import settings
-from xhtml2pdf import pisa
 from io import StringIO
 
 from celery import shared_task
@@ -76,11 +75,3 @@ def generate_pdf(data_id: int):
         else:
             data_obj.status = 'FAIL'
             data_obj.save()
-
-    # pdf = StringIO()
-    # pisa.CreatePDF(html_content, pdf)
-    # resp = pdf.getvalue()
-    # pdf.close()
-    # logger.info(resp)
-
-

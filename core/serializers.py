@@ -24,3 +24,8 @@ class DataQuickResponse(serializers.ModelSerializer):
     class Meta:
         fields = ['id', 'user', 'image', 'generated_pdf', 'status', 'created_at', 'updated_at']
         model = core_models.Data
+
+class DataFullResponse(serializers.ModelSerializer):
+    class Meta:
+        fields = '__all__'
+        model = core_models.Data

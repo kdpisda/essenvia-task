@@ -25,8 +25,9 @@ from core import views as core_views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('auth/login/', core_views.login),
-    path('data/', core_views.submit_data),
-    path('data/<int:pk>/', core_views.get_data),
+    path('auth/refresh/', TokenRefreshView.as_view()),
+    path('data/', core_views.DataViewSet.as_view({'get': 'list', 'post': 'post'})),
+    path('data/<int:pk>/', core_views.DataViewSet.as_view({'get': 'retrieve'})),
 ]
 
 urlpatterns += staticfiles_urlpatterns()
