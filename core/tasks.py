@@ -22,6 +22,10 @@ def generate_pdf(data_id: int):
     data_obj = core_models.Data.objects.get(pk=data_id)
     data_obj.status = 'PROG'
     data_obj.save()
+
+    pdf_file_name = None
+    pdf_location = None
+    
     try:
         time = datetime.now()
 
@@ -44,12 +48,12 @@ def generate_pdf(data_id: int):
         pdf_location =  os.path.join(os.path.join(settings.BASE_DIR, 'generated_files'), pdf_file_name)
 
         options = {
-            'page-size': 'Letter',
+            'page-size': 'A4',
             'margin-top': '0.75in',
             'margin-right': '0.75in',
             'margin-bottom': '0.75in',
             'margin-left': '0.75in',
-            'encoding': "UTF-8",
+            'encoding': 'utf-8',
             'custom-header': [
                 ('Accept-Encoding', 'gzip')
             ],
@@ -57,21 +61,21 @@ def generate_pdf(data_id: int):
         }
         pdfkit.from_string(html_content, pdf_location, options=options)
 
-        pdf_file = open(pdf_location)
+        pdf_file = open(pdf_location, "rb")
         data_obj.generated_pdf.save(pdf_file_name, File(pdf_file))
         
         data_obj.status = 'FINI'
         data_obj.save()
 
-    except Exception as e:
-        logger.info(str(e))
-    finally:
-
-        pdf_file = open(pdf_location)
-        data_obj.generated_pdf.save(pdf_file_name, File(pdf_file))
-        
-        data_obj.status = 'FINI'
-        data_obj.save()
+    except:
+        if pdf_location is not None:
+            pdf_file = open(pdf_location, "rb")
+            data_obj.generated_pdf.save(pdf_file_name, File(pdf_file), save=True)
+            data_obj.status = 'FINI'
+            data_obj.save()
+        else:
+            data_obj.status = 'FAIL'
+            data_obj.save()
 
     # pdf = StringIO()
     # pisa.CreatePDF(html_content, pdf)
