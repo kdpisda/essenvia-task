@@ -82,6 +82,10 @@ If you changed anythig while we were preparing the database in `PostgreSQL` you 
 source .env && ./manage.py migrate
 ```
 
+### Installing other requirements
+
+Since we rely on [`pdfkit`](https://pypi.org/project/pdfkit/) to generate PDF files. Please follow the steps mentioned [here](https://pypi.org/project/pdfkit/) to install `wkhtmltopdf` as well which is necessary for smooth functioning of the app.
+
 ### Setting up admin username and password
 
 ```sh
